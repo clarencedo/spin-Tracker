@@ -6,7 +6,7 @@ const SpinTracker = () => {
     const lastAngle = useRef(null); // 存储上一次鼠标位置的角度
     const totalDeltaAngle = useRef(0); // 存储总角度变化量
     const lastTimestamp = useRef(performance.now()); // 存储上一次事件触发的时间戳
-    const spinCenterRef = useRef(null); // 用于引用旋转中心元素的ref
+    const spinCenterRef = useRef(null); // 旋转中心元素的ref
 
     useEffect(() => {
         const spinCenter = spinCenterRef.current;
@@ -16,14 +16,14 @@ const SpinTracker = () => {
 
         const handleMouseMove = (e) => {
             const rect = spinCenter.getBoundingClientRect();
-            const centerX = rect.left + rect.width / 2; // 计算旋转中心的X坐标
-            const centerY = rect.top + rect.height / 2; // 计算旋转中心的Y坐标
+            const centerX = rect.left + rect.width / 2; // 旋转中心的X坐标
+            const centerY = rect.top + rect.height / 2; // 旋转中心的Y坐标
             const mouseX = e.clientX; // 鼠标当前的X坐标
             const mouseY = e.clientY; // 鼠标当前的Y坐标
 
-            const angle = Math.atan2(mouseY - centerY, mouseX - centerX); // 计算鼠标相对于旋转中心的角度
+            const angle = Math.atan2(mouseY - centerY, mouseX - centerX); // 鼠标相对于旋转中心的角度
 
-            let deltaAngle = 0; // 用于存储两次事件之间角度的变化量
+            let deltaAngle = 0; // 事件之间角度的变化量
 
             if (lastAngle.current !== null) {
                 deltaAngle = angle - lastAngle.current;
@@ -31,7 +31,7 @@ const SpinTracker = () => {
                 if (deltaAngle > Math.PI) deltaAngle -= 2 * Math.PI;
                 if (deltaAngle < -Math.PI) deltaAngle += 2 * Math.PI;
 
-                // 仅在顺时针移动时更新速度和累积旋转圈数
+                // 仅在顺时针移动时更新
                 if (deltaAngle > 0) {
                     totalDeltaAngle.current += deltaAngle;
                     const now = performance.now();
@@ -42,7 +42,7 @@ const SpinTracker = () => {
                 }
             }
 
-            lastAngle.current = angle; // 更新上一次的角度为当前角度
+            lastAngle.current = angle; // 更新上一次的角度为当前角度,下一次事件计算使用
             lastTimestamp.current = performance.now(); // 更新上一次事件触发的时间戳
         };
         document.addEventListener('mousemove', handleMouseMove);

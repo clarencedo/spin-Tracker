@@ -8,7 +8,7 @@ const SpinTrackerWithD3 = () => {
     const lastAngleRef = useRef(null);
     const totalDeltaAngleRef = useRef(0);
 
-    // svgRef用于引用SVG元素，后续用于绑定mousemove事件
+    // svgRef用于引用SVG元素
     const svgRef = useRef(null);
 
     useEffect(() => {
@@ -27,10 +27,10 @@ const SpinTrackerWithD3 = () => {
             .attr('r', 10)
             .style('fill', 'red');
 
-        // 定义旋转中心点
+        // 旋转中心点
         const center = {x: width / 2, y: height / 2};
 
-        // 定义处理鼠标移动的函数
+        // 处理鼠标移动的函数
         const handleMouseMove = (event) => {
             // 计算鼠标相对于SVG元素的位置
             const mouseX = event.clientX - svgRef.current.getBoundingClientRect().left;

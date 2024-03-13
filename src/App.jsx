@@ -10,7 +10,7 @@ function App() {
     <>
       <div>
         <SpinTracker/>
-        {/*<SpinTrackerWithD3/>*/}
+        <SpinTrackerWithD3/>
         {/*<SpinTrackerThreeJS/>*/}
         </div>
     </>

@@ -2,11 +2,11 @@ import {useRef, useEffect, useState} from 'react';
 import * as THREE from 'three';
 
 const SpinTrackerThreeJS = () => {
-    const mountRef = useRef(null); // 用于引用渲染器挂载点的ref
-    const [speed, setSpeed] = useState(0); // 存储计算得出的速度
-    const [cumulate, setCumulate] = useState(0); // 存储累计的圈数
-    const rotationRef = useRef({lastAngle: 0, totalRotation: 0}); // 存储上一次角度和总旋转角度
-    const speedTimeoutRef = useRef(null); // 存储用于重置速度的timeout引用
+    const mountRef = useRef(null);
+    const [speed, setSpeed] = useState(0);
+    const [cumulate, setCumulate] = useState(0);
+    const rotationRef = useRef({lastAngle: 0, totalRotation: 0});
+    const speedTimeoutRef = useRef(null);
 
     useEffect(() => {
         const width = 600; // 场景宽度
@@ -15,9 +15,9 @@ const SpinTrackerThreeJS = () => {
         const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000); // 创建相机
         camera.position.z = 5; // 设置相机位置
 
-        const renderer = new THREE.WebGLRenderer({antialias: true}); // 创建渲染器，并开启抗锯齿
+        const renderer = new THREE.WebGLRenderer({antialias: true}); // 创建渲染器
         renderer.setSize(width, height); // 设置渲染器大小
-        mountRef.current.appendChild(renderer.domElement); // 将渲染器的DOM元素挂载到React的ref对应的DOM元素上
+        mountRef.current.appendChild(renderer.domElement); //渲染器的dom元素挂在到ref上
 
         const geometry = new THREE.SphereGeometry(1, 32, 32); // 创建球体几何体
         const material = new THREE.MeshPhongMaterial({color: 0xff4500, specular: 0x111111, shininess: 100}); // 创建材质
