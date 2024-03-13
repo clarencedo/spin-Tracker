@@ -1,4 +1,5 @@
-# npm install
-# npm run dev
-
+# Spin Tracker
 This repo is created for FOMO Pay interview.
+
+
+
