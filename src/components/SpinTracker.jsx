@@ -7,7 +7,7 @@ const SpinTracker = () => {
     const totalDeltaAngle = useRef(0); // 存储总角度变化量
     const lastTimestamp = useRef(performance.now()); // 存储上一次事件触发的时间戳
     const spinCenterRef = useRef(null); // 旋转中心元素的ref
-
+    const movementTimeout = useRef(null); // 用于检测鼠标停止移动的timeout,防抖
     useEffect(() => {
         const spinCenter = spinCenterRef.current;
         if (!spinCenter) {
@@ -15,13 +15,13 @@ const SpinTracker = () => {
         }
 
         const handleMouseMove = (e) => {
-            const rect = spinCenter.getBoundingClientRect();
+            const rect = spinCenter.getBoundingClientRect();//获取元素在窗口种的位置
             const centerX = rect.left + rect.width / 2; // 旋转中心的X坐标
             const centerY = rect.top + rect.height / 2; // 旋转中心的Y坐标
             const mouseX = e.clientX; // 鼠标当前的X坐标
             const mouseY = e.clientY; // 鼠标当前的Y坐标
 
-            const angle = Math.atan2(mouseY - centerY, mouseX - centerX); // 鼠标相对于旋转中心的角度
+            const angle = Math.atan2(mouseY - centerY, mouseX - centerX); // Math.atan2计算鼠标相对于旋转中心的角度
 
             let deltaAngle = 0; // 事件之间角度的变化量
 
@@ -44,10 +44,16 @@ const SpinTracker = () => {
 
             lastAngle.current = angle; // 更新上一次的角度为当前角度,下一次事件计算使用
             lastTimestamp.current = performance.now(); // 更新上一次事件触发的时间戳
+            // 每次移动事件发生时重置检测鼠标停止的计时器
+            clearTimeout(movementTimeout.current);
+            movementTimeout.current = setTimeout(() => {
+                setSpeed(0); // 如果在一定时间内没有新的移动事件，则将速度设置为0
+            }, 100); // 100毫秒无移动则假定鼠标已停止
         };
         document.addEventListener('mousemove', handleMouseMove);
         return () => {
             document.removeEventListener('mousemove', handleMouseMove);
+            clearTimeout(movementTimeout.current)
         };
     }, []);
 

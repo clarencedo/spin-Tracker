@@ -62,18 +62,16 @@ const SpinTrackerWithD3 = () => {
                     setCumulate(cumulateRounds);
                 }
             }
-            // 更新上一次的角度和时间戳为当前值，以供下一次事件使用
             lastAngleRef.current = angle;
             lastTimeRef.current = now;
         };
-        // 绑定mousemove事件处理函数到SVG元素
+        // 绑定到SVG元素
         d3.select(svgRef.current).on('mousemove', handleMouseMove);
         // 组件卸载时，移除mousemove事件监听器
         return () => {
             d3.select(svgRef.current).on('mousemove', null);
         };
     }, []);
-    // 渲染SVG元素和显示旋转速率和累计圈数的文本
     return (
         <div>
             <svg ref={svgRef}></svg>
