@@ -74,7 +74,6 @@ const SpinTracker = () => {
     }, [])
 
     return (
-
         <div>
             <div ref={spinCenterRef} style={{
                 position: 'absolute',
@@ -119,7 +118,6 @@ const SpinTracker = () => {
                 </div>
             </Box>
         </div>
-
     );
 };
 export default SpinTracker;
